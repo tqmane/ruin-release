@@ -101,8 +101,6 @@ iOS 版 LINE 向けの非公式機能拡張（Tweak）です。
 - **エフェクトメタ取得・エフェクト調査**: 純正と同じ経路で `getChatEffectMetaList` を 1 回実行して配布中のエフェクト定義を確認し、端末内のエフェクト設定やバンドル状態を JSON で出力できます（開発者向け）。
 - **多言語対応**: 日本語・英語・韓国語・簡体字中国語・繁体字中国語の 5 言語に対応しています。
 
-各機能の実現方法と詳細は [docs/features/](https://github.com/tqmane/ruin/blob/main/docs/features/README.md) を参照してください。
-
 ---
 
 ## 導入方法
