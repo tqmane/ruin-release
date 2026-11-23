@@ -30,25 +30,25 @@ iOS 版 LINE 向けの非公式機能拡張（Tweak）です。
 
 | ホーム画面 | LINE 設定内の入口 | RUIN 設定 |
 | :---: | :---: | :---: |
-| <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/home.png" width="240" alt="Home Screen" /> | <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/settings-entry.png" width="240" alt="Settings Entry" /> | <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/ruin-settings.png" width="240" alt="RUIN Settings" /> |
+| <img src="docs/screenshots/home.png" width="240" alt="Home Screen" /> | <img src="docs/screenshots/settings-entry.png" width="240" alt="Settings Entry" /> | <img src="docs/screenshots/ruin-settings.png" width="240" alt="RUIN Settings" /> |
 
 | カスタムフォント | メッセージ長押しメニュー | ミュート送信 |
 | :---: | :---: | :---: |
-| <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/local-font.png" width="240" alt="Local Font" /> | <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/chat-menu.png" width="240" alt="Chat Menu" /> | <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/mute-send.png" width="240" alt="Mute Send" /> |
+| <img src="docs/screenshots/local-font.png" width="240" alt="Local Font" /> | <img src="docs/screenshots/chat-menu.png" width="240" alt="Chat Menu" /> | <img src="docs/screenshots/mute-send.png" width="240" alt="Mute Send" /> |
 
 | このメッセージまで既読 | 既読者一覧 |
 | :---: | :---: |
-| <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/mark-read-until.png" alt="このメッセージまで既読" width="320"> | <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/read-users.png" alt="既読者一覧" width="320"> |
+| <img src="docs/screenshots/mark-read-until.png" alt="このメッセージまで既読" width="320"> | <img src="docs/screenshots/read-users.png" alt="既読者一覧" width="320"> |
 | 長押しメニューから「このメッセージまで既読」を選択 | **自分以外が送信したメッセージ**でも、既読者と既読日時を確認できます。 |
 
 | テーマ詳細 | iPadでのテーマ商品詳細 |
 | :---: | :---: |
-| <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/theme-detail.png" alt="テーマ詳細" width="320"> | <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/ipad-theme-detail.png" alt="iPadでのテーマ商品詳細" width="320"> |
+| <img src="docs/screenshots/theme-detail.png" alt="テーマ詳細" width="320"> | <img src="docs/screenshots/ipad-theme-detail.png" alt="iPadでのテーマ商品詳細" width="320"> |
 | テーマストアの商品詳細ページ | iPadで表示したテーマ商品詳細 |
 
 | 季節・トークエフェクト（雪・積雪） | 青文字連動・バルーン再生 | 公式ハロウィン Lottie | スクロールプレビュー |
 | :---: | :---: | :---: | :---: |
-| <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/seasonal-snow.png" alt="季節・トークエフェクト（雪・積雪）" width="185"> | <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/seasonal-balloon.png" alt="青文字連動・バルーン再生" width="185"> | <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/seasonal-halloween.png" alt="公式ハロウィン Lottie" width="185"> | <img src="https://raw.githubusercontent.com/tqmane/ruin/main/docs/screenshots/scroll-preview.png" alt="スクロールプレビュー" width="185"> |
+| <img src="docs/screenshots/seasonal-snow.png" alt="季節・トークエフェクト（雪・積雪）" width="185"> | <img src="docs/screenshots/seasonal-balloon.png" alt="青文字連動・バルーン再生" width="185"> | <img src="docs/screenshots/seasonal-halloween.png" alt="公式ハロウィン Lottie" width="185"> | <img src="docs/screenshots/scroll-preview.png" alt="スクロールプレビュー" width="185"> |
 | 期間限定を解除した雪・積雪と青文字リンク | 青文字「誕生日」のタップ／送受信でのバルーン再生 | 公式キャッシュアセットによるハロウィン Lottie 再生 | `24h送信取消・ミュートメッセージ` 有効時の純正スクロールプレビュー |
 
 ---
