@@ -1,0 +1,105 @@
+name: Release RUIN
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout RUIN source at same tag
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: tqmane/ruin
+          ref: ${{ github.ref_name }}
+          token: ${{ secrets.RUIN_SOURCE_TOKEN }}
+          path: source
+          persist-credentials: false
+
+      - name: Validate version
+        id: version
+        shell: bash
+        working-directory: source
+        run: |
+          ruin_version="${GITHUB_REF_NAME#v}"
+          python3 -c 'import sys; sys.path.insert(0, "tools"); from distribute import validate_version; validate_version(sys.argv[1])' "$ruin_version" >/dev/null 2>&1
+          echo "value=$ruin_version" >> "$GITHUB_OUTPUT"
+          echo "RUIN_BUILD_VERSION=$ruin_version" >> "$GITHUB_ENV"
+
+      - name: Build arm64+arm64e universal dylib
+        working-directory: source
+        env:
+          RUIN_VERSION: ${{ steps.version.outputs.value }}
+        run: make -j4 all RUIN_BUILD_VERSION="$RUIN_VERSION" >/dev/null 2>&1
+
+      - name: Verify real arm64+arm64e dylib
+        shell: bash
+        working-directory: source
+        run: |
+          exec >/dev/null 2>&1
+          set -euo pipefail
+          arches="$(lipo build/RUIN.dylib -archs)"
+          python3 -c 'import sys; a=sys.argv[1].split(); e={"arm64", "arm64e"}; assert len(a)==2 and set(a)==e, a' "$arches"
+          lipo build/RUIN.dylib -verify_arch arm64 arm64e
+          codesign --verify --strict build/RUIN.dylib
+
+      - name: Run existing macOS host fixtures
+        working-directory: source
+        run: make -j4 check-host >/dev/null 2>&1
+
+      - name: Run actual and synthetic packaging verification
+        working-directory: source
+        run: make check-packaging >/dev/null 2>&1
+
+      - name: Package and verify dependencies and embedded resources
+        working-directory: source
+        env:
+          RUIN_VERSION: ${{ steps.version.outputs.value }}
+        run: make dist RUIN_BUILD_VERSION="$RUIN_VERSION" >/dev/null 2>&1
+
+      - name: Prepare and verify LiveContainer release dylib
+        shell: bash
+        working-directory: source
+        env:
+          RUIN_VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          exec >/dev/null 2>&1
+          set -euo pipefail
+          lc_dylib="dist/RUIN-${RUIN_VERSION}-LiveContainer.dylib"
+          prepared="build/RUIN-${RUIN_VERSION}-LiveContainer.prepared.dylib"
+          rm -f "$prepared"
+          python3 tools/prepare_livecontainer.py "$lc_dylib" "$prepared"
+          cmp -s "$lc_dylib" "$prepared"
+          rm -f "$prepared"
+          python3 -c 'import sys; sys.path.insert(0, "tools"); from distribute import verify_dylib; verify_dylib(sys.argv[1], for_livecontainer=True)' "$lc_dylib"
+          python3 tools/verify_embedded_resources.py "$lc_dylib"
+          (cd dist && shasum -a 256 -c SHA256SUMS)
+
+      - name: Publish GitHub Release
+        if: github.ref_type == 'tag'
+        working-directory: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUIN_VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          exec >/dev/null 2>&1
+          set -euo pipefail
+          release_files=(
+            "dist/RUIN-${RUIN_VERSION}-rootful.deb"
+            "dist/RUIN-${RUIN_VERSION}-rootless.deb"
+            "dist/RUIN-${RUIN_VERSION}-jailed.deb"
+            "dist/RUIN-${RUIN_VERSION}-LiveContainer.dylib"
+            dist/SHA256SUMS
+          )
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "${release_files[@]}" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" "${release_files[@]}" --verify-tag --title "RUIN $GITHUB_REF_NAME" --generate-notes
+          fi
