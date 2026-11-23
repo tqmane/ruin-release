@@ -101,7 +101,7 @@ iOS 版 LINE 向けの非公式機能拡張（Tweak）です。
 - **エフェクトメタ取得・エフェクト調査**: 純正と同じ経路で `getChatEffectMetaList` を 1 回実行して配布中のエフェクト定義を確認し、端末内のエフェクト設定やバンドル状態を JSON で出力できます（開発者向け）。
 - **多言語対応**: 日本語・英語・韓国語・簡体字中国語・繁体字中国語の 5 言語に対応しています。
 
-各機能の実現方法と詳細は [docs/features/](https://github.com/tqmane/ruin/blob/main/docs/features/README.md) を参照してください。純正チャットエフェクトの調査記録は [docs/chat-effect-investigation.md](https://github.com/tqmane/ruin/blob/main/docs/chat-effect-investigation.md) にあります。
+各機能の実現方法と詳細は [docs/features/](https://github.com/tqmane/ruin/blob/main/docs/features/README.md) を参照してください。
 
 ---
 
@@ -134,40 +134,3 @@ LINE の **「設定」タブ最下部** に追加される **「RUIN」** か�
 
 > [!TIP]
 > 既存のトーク履歴やログイン状態を保持してアップデートする場合は、これまでと同じ Bundle ID と署名環境を引き継いでください。
-
----
-
-## ビルド方法
-
-### 必要な環境
-- macOS / Xcode（iOS SDK を含む）
-- `make`, `perl`, `python3`（ホストテストも実行する場合は `node`）
-
-### コマンド
-
-```bash
-# Universal dylib (arm64 + arm64e) とツールをビルド -> build/RUIN.dylib
-make -j4 all
-
-# 配布用パッケージ (.deb 3種・LC用dylib・SHA256SUMS) を生成 -> dist/
-make dist
-
-# ホストテストの実行（任意）
-make -j4 check-host
-```
-
-ビルド成果物は以下に生成されます。
-- **バイナリ**: `build/RUIN.dylib`（手動注入時は `resources/RUINResources.bundle` も同梱してください）
-- **配布パッケージ**: `dist/RUIN-<version>-{rootless,rootful,jailed}.deb`、`dist/RUIN-<version>-LiveContainer.dylib`、`dist/SHA256SUMS`
-
-### 署名済み IPA の生成（開発者向け）
-手元の `.ipa`・証明書（`.p12`）・プロファイル（`.mobileprovision`）を使って署名済み IPA を直接ビルドするスクリプトも同梱しています。
-
-```bash
-python3 tools/package.py \
-  --ipa <LINE.ipa> \
-  --profile <profile.mobileprovision> \
-  --p12 <certificate.p12> \
-  --password-file <password.txt> \
-  --udid <device-udid>
-```
